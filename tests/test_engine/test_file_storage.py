@@ -2,6 +2,7 @@
 '''unittests for our FileStorage class found in models/base_model.py
 '''
 import os
+import models
 import unittest
 from time import sleep
 from datetime import datetime
@@ -36,6 +37,15 @@ class TestFileStorage(unittest.TestCase):
         '''
         test_obj = FileStorage()
         self.assertEqual(dict, type(test_obj.all()))
+
+    def test_reload(self):
+        '''Testing the reload method and the __object attr'''
+        test_obj = BaseModel()
+        models.storage.new(test_obj)
+        models.storage.save()
+        models.storage.reload()
+        dict_ = FileStorage._FileStorage__objects
+        self.assertIn("BaseModel." + test_obj.id, dict_)
 
 if __name__ == '__main__':
     unittest.main()
