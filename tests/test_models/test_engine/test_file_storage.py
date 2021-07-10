@@ -101,5 +101,12 @@ class TestFileStorage(unittest.TestCase):
         test_storage.reload()
         self.assertNotEqual(test_storage.all(), {})
 
+    def test_save3(self):
+        '''Testing save method, testing that a file is created'''
+        test_obj = BaseModel()
+        test_storage = FileStorage()
+        test_obj.save()
+        self.assertTrue(os.path.isfile("file.json"))
+
 if __name__ == '__main__':
     unittest.main()
