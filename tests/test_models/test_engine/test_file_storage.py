@@ -64,15 +64,26 @@ class TestFileStorage(unittest.TestCase):
         dict_ = test_obj.all()
         self.assertTrue(isinstance(dict_, dict))
 
+    def test_save(self):
+        '''Testing the save method'''
+        test_obj = BaseModel()
+        test_obj2 = FileStorage()
+        models.storage.new(test_obj)
+        models.storage.save()
+        file_string = ""
+        with open("file.json", 'r+') as jfile:
+            file_string = jfile.read()
+            self.assertIn("BaseModel.", file_string)
+
     def test_new(self):
-        ''' '''
+        '''Testing the new method'''
         test_obj = BaseModel()
         test_obj2 = FileStorage()
         test_obj2.new(test_obj)
         self.assertNotEqual(test_obj2.all(), 0)
 
     def test_reload2(self):
-        ''' '''
+        '''Testing the reload method'''
         test_obj = BaseModel()
         test_storage = FileStorage()
         test_obj.name = "Holberton"
