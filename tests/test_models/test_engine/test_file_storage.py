@@ -119,10 +119,9 @@ class TestFileStorage(unittest.TestCase):
         value_dict = test_dict.get("BaseModel.{}".format(test_obj.id))
         self.assertEqual(value_dict['name'], "Holberton")
 
-    def test_save5(self):
-        with self.assertRaises(TypeError):
-            models.storage.save(None)
-
+    def test_docstring(self):
+        '''test'''
+        self.assertIsNotNone(FileStorage.save.__doc__)
 
 if __name__ == '__main__':
     unittest.main()
