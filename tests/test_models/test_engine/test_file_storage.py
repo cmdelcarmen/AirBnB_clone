@@ -108,5 +108,16 @@ class TestFileStorage(unittest.TestCase):
         test_obj.save()
         self.assertTrue(os.path.isfile("file.json"))
 
+    def test_save4(self):
+        '''Testing save method'''
+        test_obj = BaseModel()
+        test_obj.name = "Holberton"
+        storage = FileStorage()
+        test_obj.save()
+        with open('file.json', 'r+') as f:
+            test_dict = json.load(f)
+        value_dict = test_dict.get("BaseModel.{}".format(test_obj.id))
+        self.assertEqual(value_dict['name'], "Holberton")
+
 if __name__ == '__main__':
     unittest.main()
