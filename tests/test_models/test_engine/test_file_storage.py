@@ -47,5 +47,6 @@ class TestFileStorage(unittest.TestCase):
         dict_ = FileStorage._FileStorage__objects
         self.assertIn("BaseModel." + test_obj.id, dict_)
 
+
 if __name__ == '__main__':
     unittest.main()
