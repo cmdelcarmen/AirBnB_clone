@@ -73,13 +73,13 @@ class TestFileStorage(unittest.TestCase):
 
     def test_reload2(self):
         ''' '''
-        obj = BaseModel()
-        storage = FileStorage()
-        obj.name = "Holberton"
-        obj.save()
-        storage._FIleStorage__objects = {}
-        storage.reload()
-        self.assertNotEqual(storage.all(), {})
+        test_obj = BaseModel()
+        test_storage = FileStorage()
+        test_obj.name = "Holberton"
+        test_obj.save()
+        test_storage._FileStorage__objects = {}
+        test_storage.reload()
+        self.assertNotEqual(test_storage.all(), {})
 
 if __name__ == '__main__':
     unittest.main()
