@@ -6,6 +6,7 @@ import models
 import unittest
 from time import sleep
 from datetime import datetime
+from models import storage
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 
@@ -36,8 +37,8 @@ class TestFileStorage(unittest.TestCase):
         '''Testing the all method of FileStorage, making sure it returns
         the dictionary.
         '''
-        test_obj = FileStorage()
-        self.assertEqual(dict, type(test_obj.all()))
+        test_obj = storage.all()
+        self.assertEqual(dict, type(test_obj))
 
     def test_reload(self):
         '''Testing the reload method and the __object attr'''
