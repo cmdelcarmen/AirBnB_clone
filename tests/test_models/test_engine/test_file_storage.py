@@ -65,6 +65,15 @@ class TestFileStorage(unittest.TestCase):
         self.assertTrue(isinstance(dict_, dict))
 
     def test_save(self):
+        '''Testing save'''
+        my_model = BaseModel()
+        created = test_obj.updated_at
+        sleep(2)
+        my_model.save()
+        updated = test_obj.updated_at
+        self.assertLess(created, updated)
+
+    def test_save(self):
         '''Testing the save method'''
         test_obj = BaseModel()
         test_obj2 = FileStorage()
