@@ -49,6 +49,15 @@ class TestFileStorage(unittest.TestCase):
         test_obj = storage.all()
         self.assertEqual(dict, type(test_obj))
 
+    def test_reload(self):
+        '''Testing the reload method and the __object attr'''
+        test_obj = BaseModel()
+        models.storage.new(test_obj)
+        models.storage.save()
+        models.storage.reload()
+        dict_ = FileStorage._FileStorage__objects
+        self.assertIn("BaseModel." + test_obj.id, dict_)
+
     def test_all2(self):
         '''Testing all() method'''
         test_obj = FileStorage()
