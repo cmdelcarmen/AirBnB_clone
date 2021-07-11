@@ -170,7 +170,7 @@ class HBNBCommand(cmd.Cmd):
                 and HBNBCommand.check_if_valid_id(cmd_args[0], cmd_args[1]):
             '''Valid class name, valid id, attr passed but no value
             for attr passed.'''
-            printf('** value missing **')
+            print('** value missing **')
 
         elif (len(cmd_args) >= 4):
             obj = storage.all()["{}.{}".format(cmd_args[0], cmd_args[1])]
