@@ -124,11 +124,11 @@ class TestBaseModel(unittest.TestCase):
         self.assertTrue(os.path.exists('file.json'))
 
     def test_save_updates_file(self):
-        bm = BaseModel()
-        bm.save()
-        bmid = "BaseModel." + bm.id
-        with open("file.json", "r") as f:
-            self.assertIn(bmid, f.read())
+        test_model = BaseModel()
+        test_model.save()
+        tmid = "BaseModel." + test_model.id
+        with open("file.json", "r") as jfile:
+            self.assertIn(tmid, jfile.read())
 
 if __name__ == '__main__':
         unittest.main()
