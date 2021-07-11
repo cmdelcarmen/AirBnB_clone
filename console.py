@@ -152,7 +152,6 @@ class HBNBCommand(cmd.Cmd):
         cmd_args = command.split(' ')
 
         if cmd_args == ['']:
-            print("<" + str(cmd_args) + ">")
             print('** class name missing **')
 
         elif (len(cmd_args) == 1)\
