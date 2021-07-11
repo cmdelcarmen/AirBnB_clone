@@ -2,6 +2,7 @@
 '''unittests for our BaseModel class found in models/base_model.py
 '''
 
+import os
 import unittest
 from time import sleep
 import models
@@ -9,6 +10,7 @@ from models import storage
 from datetime import datetime
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
+
 
 class TestBaseModel(unittest.TestCase):
     '''unittests for our BaseModel class, testing: __init__, __str__,
@@ -87,14 +89,17 @@ class TestBaseModel(unittest.TestCase):
 
     def test_save(self):
         '''Testing save'''
-        my_model = BaseModel()
+        test_obj = BaseModel()
         created = test_obj.updated_at
         sleep(2)
-        my_model.save()
+        test_obj.save()
         updated = test_obj.updated_at
         self.assertLess(created, updated)
 
-    def test_save(self):
+    def test_save4(self):
+        '''testing save() method'''
+
+    def test_save5(self):
         '''Testing the save method'''
         test_obj = BaseModel()
         test_obj2 = FileStorage()
@@ -104,6 +109,22 @@ class TestBaseModel(unittest.TestCase):
         with open("file.json", 'r+') as jfile:
                 file_string = jfile.read()
                 self.assertIn("BaseModel.", file_string)
+
+    def test_save8(self):
+        '''testing save method'''
+        obj = BaseModel()
+        time1 = obj.updated_at
+        obj.name = "Holberton"
+        obj.age = 1
+        obj.save()
+        time2 = obj.updated_at
+        dict_obj = storage.all()
+        obj_ref = storage.all().get("BaseModel.{}".format(obj.id))
+        self.assertNotEqual(time1, time2)
+        self.assertEqual(obj.id, obj_ref.id)
+        self.assertEqual(obj.name, obj_ref.name)
+        self.assertEqual(obj.age, obj_ref.age)
+        self.assertTrue(os.path.exists('file.json'))
 
 if __name__ == '__main__':
         unittest.main()
