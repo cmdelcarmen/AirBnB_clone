@@ -124,25 +124,7 @@ class TestBaseModel(unittest.TestCase):
         self.assertTrue(os.path.exists('file.json'))
 
 class TestBaseModel_save(unittest.TestCase):
-    """Unittests for testing save method of the BaseModel class."""
-
-    @classmethod
-    def setUp(self):
-        try:
-            os.rename("file.json", "tmp")
-        except IOError:
-            pass
-
-    @classmethod
-    def tearDown(self):
-        try:
-           os.remove("file.json")
-        except IOError:
-            pass
-        try:
-            os.rename("tmp", "file.json")
-        except IOError:
-            pass
+    '''tests for the save method'''
 
     def test_one_save(self):
         bm = BaseModel()
