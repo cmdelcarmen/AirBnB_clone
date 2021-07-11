@@ -48,10 +48,10 @@ class HBNBCommand(cmd.Cmd):
         Example: (hbnb) show BaseModel 1234-1234-1234'''
         cmd_args = command.split(' ')
 
-        if len(cmd_args) == 0:
+        if cmd_args == ['']:
             print('** class name missing **')
 
-        if len(cmd_args) < 2:
+        elif len(cmd_args) < 2:
             print('** instance id missing **')
 
         else:
@@ -72,10 +72,10 @@ class HBNBCommand(cmd.Cmd):
         '''
         cmd_args = command.split(' ')
 
-        if len(cmd_args) == 0:
+        if cmd_args == ['']:
             print('** class name missing **')
 
-        if len(cmd_args) < 2:
+        elif len(cmd_args) < 2:
             print('** instance id missing **')
 
         else:
