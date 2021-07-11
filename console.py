@@ -36,6 +36,8 @@ class HBNBCommand(cmd.Cmd):
                 new_instance = BaseModel()
                 new_instance.save()
                 print(new_instance.id)
+            else:
+                print('** class doesn\'t exist **')
 
         else:
             print('** class name missing **')
@@ -63,7 +65,7 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print('** class doesn\'t exist **')
 
-    def do_destroy(self):
+    def do_destroy(self, command):
         ''''Destroy' command deletes an instance based on the class
         name and id.
         Example: (hbnb) destroy BaseModel 1234-1234-1234
