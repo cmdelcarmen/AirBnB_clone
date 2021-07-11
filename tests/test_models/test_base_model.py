@@ -126,10 +126,12 @@ class TestBaseModel(unittest.TestCase):
 class TestBaseModel_save(unittest.TestCase):
     '''tests for the save method'''
 
-    def test_save_with_arg(self):
+    def test_save_updates_file(self):
         bm = BaseModel()
-        with self.assertRaises(TypeError):
-            bm.save(None)
+        bm.save()
+        bmid = "BaseModel." + bm.id
+        with open("file.json", "r") as f:
+            self.assertIn(bmid, f.read())
 
 if __name__ == '__main__':
         unittest.main()
