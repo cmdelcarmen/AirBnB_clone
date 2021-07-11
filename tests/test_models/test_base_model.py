@@ -96,9 +96,6 @@ class TestBaseModel(unittest.TestCase):
         updated = test_obj.updated_at
         self.assertLess(created, updated)
 
-    def test_save4(self):
-        '''testing save() method'''
-
     def test_save5(self):
         '''Testing the save method'''
         test_obj = BaseModel()
