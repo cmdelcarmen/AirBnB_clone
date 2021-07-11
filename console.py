@@ -152,6 +152,7 @@ class HBNBCommand(cmd.Cmd):
         cmd_args = command.split(' ')
 
         if cmd_args == ['']:
+            print("<" + str(cmd_args) + ">")
             print('** class name missing **')
 
         elif (len(cmd_args) == 1)\
@@ -172,9 +173,11 @@ class HBNBCommand(cmd.Cmd):
             for attr passed.'''
             print('** value missing **')
 
-        elif (len(cmd_args) >= 4):
+        elif (len(cmd_args) >= 4)\
+                and HBNBCommand.check_if_valid_class(cmd_args[0])\
+                and HBNBCommand.check_if_valid_id(cmd_args[0], cmd_args[1]):
             obj = storage.all()["{}.{}".format(cmd_args[0], cmd_args[1])]
-            setattr(update_obj, cmd_args[2], cmd_args[3].strip('"'))
+            setattr(obj, cmd_args[2], cmd_args[3].strip('"'))
             obj.save()
 
 if __name__ == '__main__':
