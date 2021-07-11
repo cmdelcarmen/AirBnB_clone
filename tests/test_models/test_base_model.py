@@ -123,9 +123,6 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(obj.age, obj_ref.age)
         self.assertTrue(os.path.exists('file.json'))
 
-class TestBaseModel_save(unittest.TestCase):
-    '''tests for the save method'''
-
     def test_save_updates_file(self):
         bm = BaseModel()
         bm.save()
