@@ -4,9 +4,11 @@
 
 import unittest
 from time import sleep
+import models
+from models import storage
 from datetime import datetime
 from models.base_model import BaseModel
-
+from models.engine.file_storage import FileStorage
 
 class TestBaseModel(unittest.TestCase):
     '''unittests for our BaseModel class, testing: __init__, __str__,
