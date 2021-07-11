@@ -6,6 +6,7 @@ objects created when the programming is running to a file.
 import json
 from models.base_model import BaseModel
 
+
 class FileStorage:
     '''Class serializes instances to a JSON file and
     deserializes JSON file to instances.
@@ -69,4 +70,3 @@ class FileStorage:
 
         except:
             pass
-
