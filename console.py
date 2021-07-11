@@ -3,13 +3,13 @@
 command interpreter.'''
 
 import cmd
-import models
+from models import storage
+from models.base_model import BaseModel
+from models.engine.file_storage import FileStorage
 
 
 class HBNBCommand(cmd.Cmd):
     '''Entry point to command line interpreter.
-    'quit' and EOF should exit program.
-    'ENTER' + empty line should not execute anything.
     '''
 
     prompt = '(hbnb) '
@@ -26,6 +26,67 @@ class HBNBCommand(cmd.Cmd):
         ''''EOF' command exits program.\n'''
         print()
         return True
+
+    def do_create(self, command):
+        ''''Create' command creates a new instance of Basemodel,
+        saves it (to the JSON file) and prints the id.
+        Example: (hbnb) create BaseModel'''
+        if command:
+            if command == 'BaseModel':
+                new_instance = BaseModel()
+                new_instance.save()
+                print(new_instance.id)
+
+        else:
+            print('** class name missing **')
+
+    def do_show(self, command):
+        ''''Show' command prints the string representation of an
+        instance based on the class name and the id.
+        Example: (hbnb) show BaseModel 1234-1234-1234'''
+        cmd_args = command.split(' ')
+
+        if len(cmd_args) == 0:
+            print('** class name missing **')
+
+        if len(cmd_args) < 2:
+            print('** instance id missing **')
+
+        else:
+            if cmd_args[0] == 'BaseModel':
+                obj_dict = storage.all()
+
+                if "{}.{}".format(cmd_args[0], cmd_args[1]) in obj_dict:
+                    print(obj_dict["{}.{}".format(cmd_args[0], cmd_args[1])])
+                else:
+                    print('** no instance found **')
+            else:
+                print('** class doesn\'t exist **')
+
+    def do_destroy(self):
+        ''''Destroy' command deletes an instance based on the class
+        name and id.
+        Example: (hbnb) destroy BaseModel 1234-1234-1234
+        '''
+        cmd_args = command.split(' ')
+
+        if len(cmd_args) == 0:
+            print('** class name missing **')
+
+        if len(cmd_args) < 2:
+            print('** instance id missing **')
+
+        else:
+            if cmd_args[0] == 'BaseModel':
+                object_dict = storage.all()
+
+                if "{}.{}".format(cmd_args[0], cmd_args[1]) in obj_dict:
+                    del obj_dict["{}.{}".format(cmd_args[0], cmd_args[1])]
+                    storage.save()
+                else:
+                    print('** no instance found **')
+            else:
+                print('** class doesn\'t exist **')
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
