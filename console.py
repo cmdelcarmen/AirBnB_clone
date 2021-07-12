@@ -81,8 +81,7 @@ class HBNBCommand(cmd.Cmd):
                     if attrs == '':
                         command = "{} {}".format(func, clss_name)
                     else:
-                        if callable(getattr(self, "do_{}".format(func), None)):
-                            command = "{} {} {}".format(func, clss_name, attrs)
+                        command = "{} {} {}".format(func, clss_name, attrs)
         return command
 
     def emptyline(self):
