@@ -40,6 +40,13 @@ class TestUser(unittest.TestCase):
         self.assertIn("email", test_obj_str)
         self.assertIn("yay@yay.com", test_obj_str)
 
+    def test_BaseModelAttr(self):
+        '''Testing User() attrs'''
+        self.assertTrue(hasattr(User, "email"))
+        self.assertTrue(hasattr(User, "password"))
+        self.assertTrue(hasattr(User, "first_name"))
+        self.assertTrue(hasattr(User, "last_name"))
+
 if __name__ == '__main__':
         unittest.main()
 
