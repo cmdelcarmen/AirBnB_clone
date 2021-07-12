@@ -15,6 +15,11 @@ class TestUser(unittest.TestCase):
         test_obj = User()
         self.assertIsInstance(test_obj, User)
 
+    def test_user_attrs(self):
+        '''Testing User inherits from BaseModel'''
+        test_obj = User()
+        self.assertTrue(isinstance(test_obj, BaseModel))
+
     def test_user_id(self):
         '''Testing the id attr'''
         test_obj = User()
@@ -34,4 +39,7 @@ class TestUser(unittest.TestCase):
         self.assertIn("User", test_obj_str)
         self.assertIn("email", test_obj_str)
         self.assertIn("yay@yay.com", test_obj_str)
+
+if __name__ == '__main__':
+        unittest.main()
 
