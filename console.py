@@ -70,14 +70,11 @@ class HBNBCommand(cmd.Cmd):
                     command = "{} {}".format(method, cmd_args[0])
                 else:
                     method = cmd_args[1].split('(')
-                    '''splits id & method name: show(123)-> show, 123)'''
-                    id_ = cmd_args[1]
-                    id_ = id_[id_.find("(")+1:id_.find(")")]
-                    '''converts 2nd arg: show(123) -> 123 '''
+                    '''splits id & method name: show(123)-> "show", "123)"'''
+                    method[1] = method[1][:-1]
+                    '''removes trailing ')' from "123)"'''
                     if callable(getattr(self, "do_{}".format(method[0]), None)):
-                        command = "{} {} {}".format(method[0], cmd_args[0], id_)
-
-
+                        command = "{} {} {}".format(method[0], cmd_args[0], method[1])
         return command
 
     def emptyline(self):
