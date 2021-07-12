@@ -15,12 +15,10 @@ from models.engine.file_storage import FileStorage
 
 
 all_classes_dict = {'BaseModel': BaseModel, 'User': User,
-        'City': City,
-        'State': State,
-        'Amenity': Amenity,
-        'Place': Place,
-        'Review': Review,
-        }
+                    'City': City, 'State': State,
+                    'Amenity': Amenity, 'Place': Place,
+                    'Review': Review
+                    }
 
 
 class HBNBCommand(cmd.Cmd):
@@ -41,7 +39,7 @@ class HBNBCommand(cmd.Cmd):
             return True
 
     @staticmethod
-    def check_if_valid_id(class_name, obj_id):
+    def validate_id(class_name, obj_id):
         '''
         Method checks if instance id is valid.
         '''
@@ -103,8 +101,9 @@ class HBNBCommand(cmd.Cmd):
                         print('** instance id missing **')
 
                     else:
-                        if (HBNBCommand.check_if_valid_id(cmd_args[0], cmd_args[1])):
-                            print(storage.all()["{}.{}".format(cmd_args[0], cmd_args[1])])
+                        if (HBNBCommand.validate_id(cmd_args[0], cmd_args[1])):
+                            sa = storage.all()
+                            print(sa["{}.{}".format(cmd_args[0], cmd_args[1])])
         else:
             print('** class name missing **')
 
@@ -122,8 +121,9 @@ class HBNBCommand(cmd.Cmd):
                         print('** instance id missing **')
 
                     else:
-                        if (HBNBCommand.check_if_valid_id(cmd_args[0], cmd_args[1])):
-                            del storage.all()["{}.{}".format(cmd_args[0], cmd_args[1])]
+                        if (HBNBCommand.validate_id(cmd_args[0], cmd_args[1])):
+                            sa = storage.all()
+                            del sa["{}.{}".format(cmd_args[0], cmd_args[1])]
                             storage.save()
         else:
             print('** class name missing **')
@@ -160,7 +160,7 @@ class HBNBCommand(cmd.Cmd):
                     print('** instance id missing **')
 
                 else:
-                    if HBNBCommand.check_if_valid_id(cmd_args[0], cmd_args[1]):
+                    if HBNBCommand.validate_id(cmd_args[0], cmd_args[1]):
                         if len(cmd_args) == 2:
                             print('** attribute name missing **')
 
@@ -168,7 +168,8 @@ class HBNBCommand(cmd.Cmd):
                             print('** value missing **')
 
                         else:
-                            obj = storage.all()["{}.{}".format(cmd_args[0], cmd_args[1])]
+                            sa = storage.all()
+                            obj = sa["{}.{}".format(cmd_args[0], cmd_args[1])]
                             setattr(obj, cmd_args[2], cmd_args[3].strip('"'))
                             obj.save()
         else:
