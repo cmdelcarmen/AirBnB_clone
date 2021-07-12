@@ -5,7 +5,11 @@ command interpreter.'''
 import cmd
 from models import storage
 from models.base_model import BaseModel
+from models.user import User
 from models.engine.file_storage import FileStorage
+
+
+all_classes_dict = {'BaseModel': BaseModel, 'User': User}
 
 
 class HBNBCommand(cmd.Cmd):
@@ -61,9 +65,10 @@ class HBNBCommand(cmd.Cmd):
         saves it (to the JSON file) and prints the id.
         Example: (hbnb) create BaseModel
         '''
+
         if command:
-            if command == 'BaseModel':
-                new_instance = BaseModel()
+            if command in all_classes_dict:
+                new_instance = all_classes_dict[command]()
                 new_instance.save()
                 print(new_instance.id)
             else:
@@ -77,25 +82,19 @@ class HBNBCommand(cmd.Cmd):
         'Show' command prints the string representation of an
         instance based on the class name and the id.
         Example: (hbnb) show BaseModel 1234-1234-1234
+        cmd_arg[0] = command, cmd_arg[1] = id
         '''
-        cmd_args = command.split(' ')
+        if command:
+            cmd_args = command.split(' ')
 
-        if cmd_args == ['']:
-            print('** class name missing **')
+            if (HBNBCommand.check_if_valid_class(cmd_args[0])):
+                    if len(cmd_args) == 1:
+                        print('** instance id missing **')
 
-        elif len(cmd_args) < 2:
-            print('** instance id missing **')
-
+                    if (HBNBCommand.check_if_valid_id(cmd_args[0], cmd_args[1])):
+                        print(storage.all()["{}.{}".format(cmd_args[0], cmd_args[1])])
         else:
-            if cmd_args[0] == 'BaseModel':
-                obj_dict = storage.all()
-
-                if "{}.{}".format(cmd_args[0], cmd_args[1]) in obj_dict:
-                    print(obj_dict["{}.{}".format(cmd_args[0], cmd_args[1])])
-                else:
-                    print('** no instance found **')
-            else:
-                print('** class doesn\'t exist **')
+            print('** class name missing **')
 
     def do_destroy(self, command):
         '''
@@ -103,25 +102,19 @@ class HBNBCommand(cmd.Cmd):
         name and id.
         Example: (hbnb) destroy BaseModel 1234-1234-1234
         '''
-        cmd_args = command.split(' ')
+        if command:
+            cmd_args = command.split(' ')
 
-        if cmd_args == ['']:
-            print('** class name missing **')
+            if (HBNBCommand.check_if_valid_class(cmd_args[0])):
+                    if len(cmd_args) == 1:
+                        print('** instance id missing **')
 
-        elif len(cmd_args) < 2:
-            print('** instance id missing **')
-
+                    else:
+                        if (HBNBCommand.check_if_valid_id(cmd_args[0], cmd_args[1])):
+                            del storage.all()["{}.{}".format(cmd_args[0], cmd_args[1])]
+                            storage.save()
         else:
-            if cmd_args[0] == 'BaseModel':
-                obj_dict = storage.all()
-
-                if "{}.{}".format(cmd_args[0], cmd_args[1]) in obj_dict:
-                    del obj_dict["{}.{}".format(cmd_args[0], cmd_args[1])]
-                    storage.save()
-                else:
-                    print('** no instance found **')
-            else:
-                print('** class doesn\'t exist **')
+            print('** class name missing  **')
 
     def do_all(self, command):
         '''
@@ -129,17 +122,14 @@ class HBNBCommand(cmd.Cmd):
         based or not on the class name.
         Example: 'all BaseModel' or 'all
         '''
-        cmd_args = command.split(' ')
-
-        if cmd_args == ['']:
+        if command:
+            if HBNBCommand.check_if_valid_class(command):
+                for key, value in storage.all().items():
+                    if value.__class__.__name__ == command:
+                        print(str(value))
+        else:
             for key, value in storage.all().items():
                 print(str(value))
-        elif cmd_args[0] == 'BaseModel':
-            for key, value in storage.all().items():
-                if value.__class__.__name__ == cmd_args[0]:
-                    print(str(value))
-        else:
-            print('** class doesn\'t exist **')
 
     def do_update(self, command):
         '''
@@ -149,35 +139,28 @@ class HBNBCommand(cmd.Cmd):
             "aibnb@holbertonschool.com
         Usage: update <class name> <id> <attribute name> "<attribute value>""
         '''
-        cmd_args = command.split(' ')
 
-        if cmd_args == ['']:
+        if command:
+            cmd_args = command.split(' ')
+
+            if HBNBCommand.check_if_valid_class(cmd_args[0]):
+                if len(cmd_args) == 1:
+                    print('** instance id missing **')
+
+                else:
+                    if HBNBCommand.check_if_valid_id(cmd_args[0], cmd_args[1]):
+                        if len(cmd_args) == 2:
+                            print('** attribute name missing **')
+
+                        elif len(cmd_args) == 3:
+                            print('** value missing **')
+
+                        else:
+                            obj = storage.all()["{}.{}".format(cmd_args[0], cmd_args[1])]
+                            setattr(obj, cmd_args[2], cmd_args[3].strip('"'))
+                            obj.save()
+        else:
             print('** class name missing **')
-
-        elif (len(cmd_args) == 1)\
-                and HBNBCommand.check_if_valid_class(cmd_args[0]):
-            '''Valid class name, but no id passed.'''
-            print('** instance id missing **')
-
-        elif (len(cmd_args) == 2)\
-                and HBNBCommand.check_if_valid_class(cmd_args[0])\
-                and HBNBCommand.check_if_valid_id(cmd_args[0], cmd_args[1]):
-            '''Valid class name, valid id, but not attr passed.'''
-            print('** attribute name missing **')
-
-        elif (len(cmd_args) == 3)\
-                and HBNBCommand.check_if_valid_class(cmd_args[0])\
-                and HBNBCommand.check_if_valid_id(cmd_args[0], cmd_args[1]):
-            '''Valid class name, valid id, attr passed but no value
-            for attr passed.'''
-            print('** value missing **')
-
-        elif (len(cmd_args) >= 4)\
-                and HBNBCommand.check_if_valid_class(cmd_args[0])\
-                and HBNBCommand.check_if_valid_id(cmd_args[0], cmd_args[1]):
-            obj = storage.all()["{}.{}".format(cmd_args[0], cmd_args[1])]
-            setattr(obj, cmd_args[2], cmd_args[3].strip('"'))
-            obj.save()
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()

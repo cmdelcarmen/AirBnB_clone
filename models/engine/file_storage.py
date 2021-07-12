@@ -5,7 +5,7 @@ objects created when the programming is running to a file.
 
 import json
 from models.base_model import BaseModel
-
+from models.user import User
 
 class FileStorage:
     '''Class serializes instances to a JSON file and
@@ -65,7 +65,6 @@ class FileStorage:
                 new_dict = json.load(j_file)
             for key, value in new_dict.items():
                 classes = key.split(".")
-                '''assign the new value to the key'''
                 self.__objects[key] = eval(classes[0])(**value)
 
         except:
