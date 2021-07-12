@@ -23,7 +23,7 @@ class HBNBCommand(cmd.Cmd):
         '''
         Method checks if class name is valid.
         '''
-        if class_name != 'BaseModel':
+        if class_name not in all_classes_dict:
             print('** class doesn\'t exist **')
             return False
         else:
