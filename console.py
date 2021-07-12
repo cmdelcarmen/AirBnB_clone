@@ -54,6 +54,8 @@ class HBNBCommand(cmd.Cmd):
         Example: BaseModel.all() == all BaseModel
         Example: BaseModel.count() == count BaseModel
 
+        Example: User.show(<id>) == show User <id>
+        Example: User.destroy(123) == destroy User 123
         Method checks for multiple args passed, then makes sure
         the second arg is a class method, and then it modifies
         the input to look like the above examples.
@@ -66,6 +68,16 @@ class HBNBCommand(cmd.Cmd):
                 '''removes parenthesis. all() -> all'''
                 if callable(getattr(self, "do_{}".format(method), None)):
                     command = "{} {}".format(method, cmd_args[0])
+                else:
+                    method = cmd_args[1].split('(')
+                    '''splits id & method name: show(123)-> show, 123)'''
+                    id_ = cmd_args[1]
+                    id_ = id_[id_.find("(")+1:id_.find(")")]
+                    '''converts 2nd arg: show(123) -> 123 '''
+                    if callable(getattr(self, "do_{}".format(method[0]), None)):
+                        command = "{} {} {}".format(method[0], cmd_args[0], id_)
+
+
         return command
 
     def emptyline(self):
