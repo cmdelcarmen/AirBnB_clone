@@ -49,6 +49,20 @@ class HBNBCommand(cmd.Cmd):
         else:
             return True
 
+    def precmd(self, command):
+        '''Allows input like BaseModel.all() to be handled.
+        BaseModel.all() == all BaseModel
+        '''
+        if command:
+            cmd_args = command.split('.')
+
+            if len(cmd_args) > 1:
+                if cmd_args[0] in all_classes_dict:
+
+                    if cmd_args[1] == 'all()':
+                        command = "{} {}".format(cmd_args[1][:-2], cmd_args[0])
+        return command
+
     def emptyline(self):
         '''
         Handles no input
