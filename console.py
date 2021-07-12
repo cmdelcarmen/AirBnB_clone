@@ -5,11 +5,22 @@ command interpreter.'''
 import cmd
 from models import storage
 from models.base_model import BaseModel
+from models.city import City
+from models.state import State
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 from models.user import User
 from models.engine.file_storage import FileStorage
 
 
-all_classes_dict = {'BaseModel': BaseModel, 'User': User}
+all_classes_dict = {'BaseModel': BaseModel, 'User': User,
+        'City': City,
+        'State': State,
+        'Amenity': Amenity,
+        'Place': Place,
+        'Review': Review,
+        }
 
 
 class HBNBCommand(cmd.Cmd):
