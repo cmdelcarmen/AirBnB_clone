@@ -28,7 +28,7 @@ class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) '
 
     @staticmethod
-    def check_if_valid_class(class_name):
+    def validate_class(class_name):
         '''
         Method checks if class name is valid.
         '''
@@ -51,16 +51,21 @@ class HBNBCommand(cmd.Cmd):
 
     def precmd(self, command):
         '''Allows input like BaseModel.all() to be handled.
-        BaseModel.all() == all BaseModel
+        Example: BaseModel.all() == all BaseModel
+        Example: BaseModel.count() == count BaseModel
+
+        Method checks for multiple args passed, then makes sure
+        the second arg is a class method, and then it modifies
+        the input to look like the above examples.
         '''
         if command:
             cmd_args = command.split('.')
 
             if len(cmd_args) > 1:
-                if cmd_args[0] in all_classes_dict:
-
-                    if cmd_args[1] == 'all()':
-                        command = "{} {}".format(cmd_args[1][:-2], cmd_args[0])
+                method = cmd_args[1][:-2]
+                '''removes parenthesis. all() -> all'''
+                if callable(getattr(self, "do_{}".format(method), None)):
+                    command = "{} {}".format(method, cmd_args[0])
         return command
 
     def emptyline(self):
@@ -110,7 +115,7 @@ class HBNBCommand(cmd.Cmd):
         if command:
             cmd_args = command.split(' ')
 
-            if (HBNBCommand.check_if_valid_class(cmd_args[0])):
+            if (HBNBCommand.validate_class(cmd_args[0])):
                     if len(cmd_args) == 1:
                         print('** instance id missing **')
 
@@ -130,7 +135,7 @@ class HBNBCommand(cmd.Cmd):
         if command:
             cmd_args = command.split(' ')
 
-            if (HBNBCommand.check_if_valid_class(cmd_args[0])):
+            if (HBNBCommand.validate_class(cmd_args[0])):
                     if len(cmd_args) == 1:
                         print('** instance id missing **')
 
@@ -149,7 +154,7 @@ class HBNBCommand(cmd.Cmd):
         Example: 'all BaseModel' or 'all
         '''
         if command:
-            if HBNBCommand.check_if_valid_class(command):
+            if HBNBCommand.validate_class(command):
                 for key, value in storage.all().items():
                     if value.__class__.__name__ == command:
                         print(str(value))
@@ -169,7 +174,7 @@ class HBNBCommand(cmd.Cmd):
         if command:
             cmd_args = command.split(' ')
 
-            if HBNBCommand.check_if_valid_class(cmd_args[0]):
+            if HBNBCommand.validate_class(cmd_args[0]):
                 if len(cmd_args) == 1:
                     print('** instance id missing **')
 
@@ -186,6 +191,22 @@ class HBNBCommand(cmd.Cmd):
                             obj = sa["{}.{}".format(cmd_args[0], cmd_args[1])]
                             setattr(obj, cmd_args[2], cmd_args[3].strip('"'))
                             obj.save()
+        else:
+            print('** class name missing **')
+
+    def do_count(self, command):
+        '''Retrieves the number of instances of a class.
+        Example: count <class_name>'''
+        if command:
+            cmd_args = command.split(' ')
+
+            if HBNBCommand.validate_class(cmd_args[0]):
+                count = 0
+                for key, value in storage.all().items():
+                    key = key.split('.')
+                    if key[0] == cmd_args[0]:
+                        count += 1
+                print(count)
         else:
             print('** class name missing **')
 
