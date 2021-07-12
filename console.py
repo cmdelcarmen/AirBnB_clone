@@ -91,8 +91,9 @@ class HBNBCommand(cmd.Cmd):
                     if len(cmd_args) == 1:
                         print('** instance id missing **')
 
-                    if (HBNBCommand.check_if_valid_id(cmd_args[0], cmd_args[1])):
-                        print(storage.all()["{}.{}".format(cmd_args[0], cmd_args[1])])
+                    else:
+                        if (HBNBCommand.check_if_valid_id(cmd_args[0], cmd_args[1])):
+                            print(storage.all()["{}.{}".format(cmd_args[0], cmd_args[1])])
         else:
             print('** class name missing **')
 
@@ -114,7 +115,7 @@ class HBNBCommand(cmd.Cmd):
                             del storage.all()["{}.{}".format(cmd_args[0], cmd_args[1])]
                             storage.save()
         else:
-            print('** class name missing  **')
+            print('** class name missing **')
 
     def do_all(self, command):
         '''
