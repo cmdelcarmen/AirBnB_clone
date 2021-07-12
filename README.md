@@ -1,6 +1,7 @@
 # 0x00. AirBnB clone - The console  
 
-Written by Caroline Del Carmen. 
+Written by Caroline Del Carmen, with some early work done By Jose Vazquez  
+in my BaseModel class.  
 
 Project Goals:  
 
