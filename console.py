@@ -63,18 +63,25 @@ class HBNBCommand(cmd.Cmd):
         if command:
             cmd_args = command.split('.')
 
-            if len(cmd_args) > 1:
-                method = cmd_args[1][:-2]
-                '''removes parenthesis. all() -> all'''
+            if (len(cmd_args) > 1):
+                clss_name = cmd_args[0]
+                method = (cmd_args[1].split('('))[:-1]
+                attrs = (cmd_args[1].split('('))[-1:]
+                attrs = attrs[0][:-1]
+                '''
+                Input example: User.show(123)
+                1st: Turned into a list: ["User", "show(123)"] using split()
+                2nd: Method to be called extracted by splitting "show(123)"
+                     into a list: ["show", "123)"] and assigning 1st idx
+                3rd: Attrs assigned the second index of the list.
+                4th: The trailing parenthesis is removed.
+                '''
                 if callable(getattr(self, "do_{}".format(method), None)):
-                    command = "{} {}".format(method, cmd_args[0])
-                else:
-                    method = cmd_args[1].split('(')
-                    '''splits id & method name: show(123)-> "show", "123)"'''
-                    method[1] = method[1][:-1]
-                    '''removes trailing ')' from "123)"'''
-                    if callable(getattr(self, "do_{}".format(method[0]), None)):
-                        command = "{} {} {}".format(method[0], cmd_args[0], method[1])
+                    if attrs == '':
+                        command = "{} {}".format(method, clss_name)
+                    else:
+                        if callable(getattr(self, "do_{}".format(method), None)):
+                            command = "{} {} {}".format(method, clss_name, attrs)
         return command
 
     def emptyline(self):
