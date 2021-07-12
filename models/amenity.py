@@ -9,4 +9,4 @@ class Amenity(BaseModel):
     '''Amenity class inherits from BaseModel. Attributes:
     name (str): Name of Amenity
     '''
-    email = ""
+    name = ""
