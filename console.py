@@ -65,7 +65,8 @@ class HBNBCommand(cmd.Cmd):
 
             if (len(cmd_args) > 1):
                 clss_name = cmd_args[0]
-                method = (cmd_args[1].split('('))[:-1]
+                func = (cmd_args[1].split('('))[:-1]
+                func = func[0]
                 attrs = (cmd_args[1].split('('))[-1:]
                 attrs = attrs[0][:-1]
                 '''
@@ -76,12 +77,12 @@ class HBNBCommand(cmd.Cmd):
                 3rd: Attrs assigned the second index of the list.
                 4th: The trailing parenthesis is removed.
                 '''
-                if callable(getattr(self, "do_{}".format(method), None)):
+                if callable(getattr(self, "do_{}".format(func), None)):
                     if attrs == '':
-                        command = "{} {}".format(method, clss_name)
+                        command = "{} {}".format(func, clss_name)
                     else:
-                        if callable(getattr(self, "do_{}".format(method), None)):
-                            command = "{} {} {}".format(method, clss_name, attrs)
+                        if callable(getattr(self, "do_{}".format(func), None)):
+                            command = "{} {} {}".format(func, clss_name, attrs)
         return command
 
     def emptyline(self):
