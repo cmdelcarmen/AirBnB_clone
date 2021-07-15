@@ -84,7 +84,6 @@ class HBNBCommand(cmd.Cmd):
                         attrs = attrs.replace(',', '')
                         command = "{} {} {}".format(func, clss_name, attrs)
                     else:
-                        print("---" + attrs + "---")
                         command = "{} {} {}".format(func, clss_name, attrs)
         return command
 
