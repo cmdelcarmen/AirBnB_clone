@@ -18,4 +18,4 @@ Project Goals:
 - models/engine  
   - file_storage.py - Contains class FileStorage that serializes objects to a JSON file, and deserializes JSON files to a python object.  
 - console.py - The entry point of the command interpreter.  
-- tests - Folder contains all unittests.  
+- tests/ - Folder contains all unittests.  
